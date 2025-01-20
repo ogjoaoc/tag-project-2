@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#include <unordered_map>
 #include <algorithm>
 #include <random>
 #include <fstream>
@@ -13,7 +12,7 @@ using namespace std;
 struct Projeto
 {
     int id, vagas, nota_minima;
-    vector<int> alocados; // Lista de IDs dos alunos alocados ao projeto
+    vector<int> alocados; // lista de IDs dos alunos alocados ao projeto
  
     // Identificador único do projeto - id
     // número de vagas disponíveis - vagas
@@ -24,23 +23,23 @@ struct Aluno
 {
     int id, nota;
     bool alocado;
-    vector<int> preferencias; // Lista de  projetos preferidos pelo aluno (identificados pelos IDs)
+    vector<int> preferencias; // lista de  projetos preferidos pelo aluno (identificados pelos IDs)
  
-    // O Aluno tem um identificador único (id), uma nota (nota), um status de alocação
+    // o aluno tem um identificador único (id), uma nota (nota), um status de alocação
     // (alocado), e uma lista de preferências de projetos (preferenciais), onde a ordem
     // da lista indica a preferência do aluno pelos projetos (do mais preferido ao menos preferido)
 };
  
 bool linhaValida(const string &linha)
 {
-    if (linha.empty()) // Se a linha estiver vazia
+    if (linha.empty()) // se a linha estiver vazia
         return false;
-    if (linha.find("//") == 0) // Se a linha for um comentário (começa com "//")
+    if (linha.find("//") == 0) // se a linha for um comentário (começa com "//")
         return false;
     return true;
 }
  
-// Função para limpar os parênteses e espaços extras de uma string
+// função para limpar os parênteses e espaços extras de uma string
 void limparString(string &linha)
 {
     linha.erase(remove(linha.begin(), linha.end(), '('), linha.end());
@@ -48,11 +47,11 @@ void limparString(string &linha)
     linha.erase(remove(linha.begin(), linha.end(), ' '), linha.end());
 }
  
-// Função para ler os dados de entrada (projetos e alunos) a partir de um arqquivo
+// função para ler os dados de entrada (projetos e alunos) a partir de um arqquivo
 void lerEntrada(const string &arquivo, vector<Projeto> &projetos, vector<Aluno> &alunos)
 {
     ifstream entrada(arquivo);
-    if (!entrada.is_open()) // Verifica se o arquivo foi aberto corretamente
+    if (!entrada.is_open()) // verifica se o arquivo foi aberto corretamente
     {
         cerr << "Erro ao abrir o arquivo " << arquivo << '\n';
         return;
@@ -62,23 +61,23 @@ void lerEntrada(const string &arquivo, vector<Projeto> &projetos, vector<Aluno> 
  
     while (getline(entrada, linha))
     {
-        // Checa se a linha é vazia ou se é um comentário.
+        // checa se a linha é vazia ou se é um comentário.
         if (!linhaValida(linha))
             continue;
  
-        // Identifica se o tipo de leitura é para projetos ou alunos.
+        // identifica se o tipo de leitura é para projetos ou alunos.
         leitura_de_projetos = !(linha.find("(A") != string::npos);
  
         if (leitura_de_projetos) // Leitura de projetos
         {
-            // Formato esperado: (P1, 2, '5')
-            // Extrair campos e remover parênteses
+            // formato esperado: (P1, 2, '5')
+            // extrair campos e remover parênteses
             limparString(linha); // Limpar a linha dos parênteses
             // P1, 2, 5
             vector<string> tokens;
             stringstream ss(linha);
             string temp;
-            while (getline(ss, temp, ',')) // Divide a Linha em tokens por vírgula
+            while (getline(ss, temp, ',')) // divide a Linha em tokens por vírgula
             {
                 // Remove espaços
                 limparString(temp);
@@ -139,16 +138,16 @@ void lerEntrada(const string &arquivo, vector<Projeto> &projetos, vector<Aluno> 
     entrada.close();
 }
  
-// Função que implementa o algoritmo de Gale-Shapley
+// função que implementa o algoritmo de Gale-Shapley
 void galeShapley(vector<Projeto> &projetos, vector<Aluno> &alunos, queue<int> filaAlunos)
 {
     while (filaAlunos.size())
     {
-        int alunoIndex = filaAlunos.front(); // Obtém o índice do aluno na fila
+        int alunoIndex = filaAlunos.front(); // obtém o índice do aluno na fila
         filaAlunos.pop();
         Aluno &aluno = alunos[alunoIndex];
  
-        // Para cada projeto preferido pelo aluno, tenta alocar
+        // para cada projeto preferido pelo aluno, tenta alocar
         for (int projetoPref : aluno.preferencias)
         {
             Projeto &projeto = projetos[projetoPref - 1];
@@ -174,7 +173,7 @@ void galeShapley(vector<Projeto> &projetos, vector<Aluno> &alunos, queue<int> fi
                             menor_nota = alunos[id_alocado - 1].nota;
                         }
                     }
-                    // Se o aluno atual tem uma nota maior que o de menor nota alocado, faz a troca
+                    // se o aluno atual tem uma nota maior que o de menor nota alocado, faz a troca
                     if (id_removido != -1 && alunos[id_removido - 1].nota < aluno.nota)
                     {
                         projeto.alocados.erase(
@@ -191,7 +190,8 @@ void galeShapley(vector<Projeto> &projetos, vector<Aluno> &alunos, queue<int> fi
         }
     }
 }
- 
+
+// comparador costumizado para ordenar alunos
 bool comparadorOrdenacao(Aluno &a, Aluno &b) {
     if(a.nota != b.nota) {
         return a.nota > b.nota;
@@ -201,17 +201,14 @@ bool comparadorOrdenacao(Aluno &a, Aluno &b) {
     }
     return a.id > b.id;
 }
- 
-// Função para salvar os resultados das alocações
+
+// função para printar no terminal resultado do emparelhamento
 void printarResultado(vector<Projeto> &projetos) {
 
     // percorrer todos os projetos e salvar suas alocações
     for (auto &projeto : projetos)
     {
-        // Imprimir no terminal
         cout << "Projeto " << projeto.id << ": ";
- 
-        // Imprimir no arquivo
  
         if (projeto.alocados.empty())
         {
@@ -233,20 +230,20 @@ int main()
     vector<Projeto> projetos;
     vector<Aluno> alunos;
  
-    // Leitura entrada (dados dos projetos e alunos)
+    // leitura entrada (dados dos projetos e alunos)
     lerEntrada("input.txt", projetos, alunos);
 
     random_device rd;
-    mt19937 g(rd()); // Gerador de números aletórios
+    mt19937 g(rd()); // gerador de números aletórios
  
     vector<int> perm(alunos.size());
     for (int i = 0; i < alunos.size(); i++)
         perm[i] = i;
  
-    // Ordena os alunos por suas notas(obs: os alunos de menor nota serão processados primeiro)
+    // ordena os alunos por suas notas(obs: os alunos de menor nota serão processados primeiro)
     sort(alunos.begin(), alunos.end(), comparadorOrdenacao);
  
-    // Variável pra armazenar emparelhamento máximo e lista de projetos do emparelhamento máximo.
+    // variável pra armazenar emparelhamento máximo e lista de projetos do emparelhamento máximo.
     vector<Projeto> projetos_emparelhamento_maximo;
     int alocacao_maxima = 0;
  
@@ -260,7 +257,7 @@ int main()
             filaAlunos.push(i);
         galeShapley(projetos, alunos, filaAlunos);
         cout << '\n';
-        // Contagem do emparelhamento
+        // contagem de vagas preenchidas do emparelhamento
         int alocacao_atual = 0;
         for(auto &projeto : projetos) {
             alocacao_atual += (int)projeto.alocados.size();
