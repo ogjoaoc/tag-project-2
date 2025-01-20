@@ -15,7 +15,7 @@ Ricardo de Carvalho Nabuco (231021360) e João Carlos Gonçalves (232009511).<br
 ## **Descrição do Problema**
 
 Uma universidade oferece 55 projetos, com um total de 74 vagas disponíveis. Os projetos têm:
-- **Capacidade máxima e mínima** de alunos.
+- **Capacidade máxima** de alunos.
 - **Nota mínima exigida** para participação.
 
 Os 200 alunos que se candidataram possuem:
