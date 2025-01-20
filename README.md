@@ -1,5 +1,5 @@
 
-# Teoria e Aplicação de Grafos - Projeto 1.
+# Teoria e Aplicação de Grafos - Projeto 2.
 
 Este projeto implementa uma solução para o problema de alocação de alunos em projetos financiados, utilizando uma variação do algoritmo de Gale-Shapley. O objetivo é alcançar um **emparelhamento máximo e estável** entre alunos e projetos, considerando as restrições de preferências e notas mínimas.
 
