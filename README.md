@@ -1,7 +1,14 @@
 
-# Emparelhamento Máximo Estável 
+# Teoria e Aplicação de Grafos - Projeto 1.
 
 Este projeto implementa uma solução para o problema de alocação de alunos em projetos financiados, utilizando uma variação do algoritmo de Gale-Shapley. O objetivo é alcançar um **emparelhamento máximo e estável** entre alunos e projetos, considerando as restrições de preferências e notas mínimas.
+
+## Autores
+
+**Alunos:**
+Ricardo de Carvalho Nabuco (231021360) e João Carlos Gonçalves (232009511).<br>
+**Professor:** Díbio.   
+**Semestre:** 2024/2.
 
 ---
 
